@@ -1,5 +1,7 @@
 package populacao;
 
+import java.util.Random;
+
 public class Individuo {
 
 	private char[] genes;
@@ -8,18 +10,22 @@ public class Individuo {
 	private Integer geneDecimalPai;
 	private Integer geneDecimalMae;
 	private Integer tamanhoCadeiaGenetica;
+	private Integer pontoCruzamento;
+	private Integer indiceMutacao;
+	private Random r;
 	
 	
 	
 	
 	
-	
-	public Individuo(Integer geneDecimalPai, Integer geneDecimalMae, Integer tamanhoCadeiaGenetica) {
+	public Individuo(Integer geneDecimalPai, Integer geneDecimalMae, Integer tamanhoCadeiaGenetica, Random r) {
 		super();
 		this.geneDecimalPai = geneDecimalPai;
 		this.geneDecimalMae = geneDecimalMae;
 		this.tamanhoCadeiaGenetica = tamanhoCadeiaGenetica;
 		this.genes = gerarGenes(geneDecimalPai, geneDecimalMae, tamanhoCadeiaGenetica);
+		this.pontoCruzamento = r.nextInt(7);
+		this.r=r;
 	}
 
 
@@ -75,12 +81,29 @@ public class Individuo {
 		
 	}
 
+	private boolean mutacao(){
+		if((this.r.nextInt(100))<=(indiceMutacao-1))
+			return true;
+		else 
+			return false;
+	}
 
 
 	public char[] getGenes() {
 		return genes;
 	}
 
+	public void gerarMutacao(){
+		for(int i =0; i<genes.length;i++){
+			if(mutacao()){
+				if(genes[i]==0)
+					genes[i]=1;
+				else
+					genes[i]=0;
+			}
+				
+		}
+	}
 
 
 
@@ -188,6 +211,14 @@ public class Individuo {
 			retorno.append(item);
 		retorno.append(">");
 		return retorno.toString();
+	}
+
+	public Integer getPontoCruzamento() {
+		return pontoCruzamento;
+	}
+
+	public void setPontoCruzamento(Integer pontoCruzamento) {
+		this.pontoCruzamento = pontoCruzamento;
 	}
 
 		
